@@ -1,6 +1,7 @@
 import React, { Componet} from 'react';
 
 import Input from './input';
+import Content from './content';
 
 class Card extends Componet {
 
@@ -23,18 +24,20 @@ class Card extends Componet {
             adjectiveFour: '',
             nounThree: '',
             celebFour: '',
-            adjectiveFive: ''
+            adjectiveFive: '',
+            contentVisible: false
         }
 
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
 
     }
 
     handleInputChange(event) {
+        event.preventDefault()
         this.setState({ [event.targer.name]: event.target.value})
-        console.log(this.state)
     } 
 
     render() {
@@ -63,11 +66,17 @@ class Card extends Componet {
     }
 
     return (
-            <div className="card">
-            {
-                inputData.map(data => Input( (data), this.handleInputChange ))
-            }
-            </div>
+            <form onSubmit={this.handleFormSubmit} className="card">
+                <div className="card__inputs">
+                {
+                    inputData.map(data => Input( (data), this.handleInputChange ))
+                }
+                </div>
+                <button type="submit">{!this.state.contentVisible ? 'Generate Mad Lib' : 'Clear Form'}</button>
+                {
+                    this.state.contentVisible ? <Content data={this.state}/> : ''
+                }
+            </form>
         )
     }
 
